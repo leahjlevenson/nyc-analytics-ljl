@@ -107,7 +107,7 @@ sources:
             description: Doing Business As (DBA) name
           - name: food_service_establishment
             description: Food Service Establishment Permit number
-          - name: building_number
+          - name: bulding_number
             description: Building number
           - name: street
             description: Street name

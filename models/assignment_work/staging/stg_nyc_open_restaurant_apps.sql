@@ -15,7 +15,7 @@ cleaned AS (
            legal_business_name,
            doing_business_as_dba,
            food_service_establishment,
-           building_number,
+           bulding_number,           -- FIXED
            street,
            borough,
            zip,
@@ -43,7 +43,7 @@ cleaned AS (
        CAST(food_service_establishment AS STRING) AS food_service_establishment,
 
        -- Address components
-       CAST(building_number AS STRING) AS building_number,
+       CAST(bulding_number AS STRING) AS building_number,   -- FIXED rename
        CAST(street AS STRING) AS street,
 
        -- Standardized borough
@@ -99,5 +99,4 @@ cleaned AS (
    QUALIFY ROW_NUMBER() OVER (PARTITION BY objectid ORDER BY time_of_submission DESC) = 1
 )
 
-SELECT * FROM cleaned
--- Final model: stg_nyc_open_restaurant_apps
+SELECT * FROM cleaned;
