@@ -7,7 +7,6 @@ WITH source AS (
 
 cleaned AS (
    SELECT
-       -- Pass through all columns except those we are transforming
        * EXCEPT (
            objectid,
            globalid,
@@ -15,7 +14,7 @@ cleaned AS (
            legal_business_name,
            doing_business_as_dba,
            food_service_establishment,
-           bulding_number,           -- FIXED
+           bulding_number,           
            street,
            borough,
            zip,
@@ -43,7 +42,7 @@ cleaned AS (
        CAST(food_service_establishment AS STRING) AS food_service_establishment,
 
        -- Address components
-       CAST(bulding_number AS STRING) AS building_number,   -- FIXED rename
+       CAST(bulding_number AS STRING) AS building_number,   
        CAST(street AS STRING) AS street,
 
        -- Standardized borough
@@ -84,19 +83,16 @@ cleaned AS (
        CAST(bbl AS STRING) AS bbl,
        CAST(nta AS STRING) AS nta,
 
-       -- Metadata
        CURRENT_TIMESTAMP() AS _stg_loaded_at
 
    FROM source
 
-   -- Filters
    WHERE objectid IS NOT NULL
      AND restaurant_name IS NOT NULL
      AND borough IS NOT NULL
      AND time_of_submission IS NOT NULL
 
-   -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY objectid ORDER BY time_of_submission DESC) = 1
 )
 
-SELECT * FROM cleaned;
+SELECT * FROM cleaned
