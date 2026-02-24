@@ -6,7 +6,7 @@ WITH all_locations AS (
    SELECT DISTINCT
        borough,
        incident_zip AS zip_code
-   FROM {{ ref('stg_311_service_requests_dot') }}
+   FROM {{ ref('stg_311_nyc_dot') }}
    WHERE borough IS NOT NULL
      AND incident_zip IS NOT NULL
 
