@@ -1,14 +1,17 @@
 WITH all_times AS (
 
-    -- From MVC crashes: construct timestamp from separate date + time
+    -- From MVC crashes: construct timestamp safely
     SELECT DISTINCT
-        TIMESTAMP(CONCAT(CAST(crash_date AS STRING), ' ', crash_time)) AS full_timestamp
+        PARSE_TIMESTAMP(
+            '%Y-%m-%d %H:%M',
+            CONCAT(CAST(crash_date AS STRING), ' ', crash_time)
+        ) AS full_timestamp
     FROM {{ ref('stg_mvc_crashes') }}
     WHERE crash_date IS NOT NULL AND crash_time IS NOT NULL
 
     UNION DISTINCT
 
-    -- From Noise Complaints (already timestamp)
+    -- Noise Complaints: already timestamp
     SELECT DISTINCT created_date AS full_timestamp
     FROM {{ ref('stg_nyc_noise_complaint') }}
     WHERE created_date IS NOT NULL
@@ -26,4 +29,4 @@ time_dimension AS (
     FROM all_times
 )
 
-SELECT * FROM time_dimension
+SELECT * FROM time_dimension;
