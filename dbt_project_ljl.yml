@@ -21,20 +21,20 @@ models:
  nyc_analytics:
    +materialized: table
 
-   assignment_work:
+   project_work:
      staging:
        +materialized: table
-       +schema: nyc_transit_restaurants_staging
+       +schema: nyc_noise_mvc_staging
 
      marts:
        +materialized: table
-       +schema: nyc_transit_restaurants_marts
+       +schema: nyc_noise_mvc_marts
       
        shared:
          +materialized: table
 
-       open_restaurant_apps:
+       noise_complaints:
          +materialized: table
 
-       dot_311:
+       mvc_crashes:
          +materialized: table
