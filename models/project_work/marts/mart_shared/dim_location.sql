@@ -27,15 +27,14 @@ WITH all_locations AS (
 
 location_dimension AS (
     SELECT
-        {{ dbt_utils.generate_surrogate_key(['location_point']) }} AS location_key,
+        {{ dbt_utils.generate_surrogate_key(["ST_AsText(location_point)"]) }} AS location_key,
 
-        location_point AS location,   -- natural geospatial key
+        location_point AS location,   -- GEOGRAPHY column
         location_type,
         incident_zip,
         borough,
         latitude,
         longitude
-
     FROM all_locations
 )
 
